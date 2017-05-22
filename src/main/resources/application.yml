@@ -1,0 +1,39 @@
+# 查看springboot开启了哪些配置
+debug: false
+
+spring:
+  profiles:
+    active: dev
+---
+spring:
+    redis:
+      host: 119.28.75.143
+      database: 0
+      port: 6379
+    session:
+      store-type: redis
+    h2:
+      console:
+        enabled: true
+    datasource:
+          url: "jdbc:h2:file:./test"
+          username: sakura
+          password: killer
+    profiles: dev
+server:
+  port: 8080
+logging:
+  level: info
+
+
+---
+spring:
+  profiles: archive
+  redis:
+      host: 119.28.75.143
+      database: 0
+      port: 6379
+  session:
+    store-type: redis
+server:
+  port: 8081
