@@ -23,4 +23,5 @@ dist/
 nbdist/
 .nb-gradle/
 
-test.mv.db
+### H2 Database ###
+*.db
