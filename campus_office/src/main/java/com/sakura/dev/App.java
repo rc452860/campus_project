@@ -17,14 +17,14 @@ public class App
     public static void main( String[] args )
     {
         try {
-            File file = new File("file/resource/2009ji.xls");
+            File file = new File("file/resource/2009ji.xls");  // 读取Excel表格
             System.out.println(file.getAbsoluteFile());
-            if(file.exists()){
-                Workbook workbook = WorkbookFactory.create(file);
-                Sheet sheet = workbook.getSheetAt(0);
-                DataFormatter formatter = new DataFormatter();
-                for (Row row : sheet){
-                    for (Cell cell:row){
+            if(file.exists()){    // 判断文件是否存在
+                Workbook workbook = WorkbookFactory.create(file);    // 通过文件创建WorkBook对象
+                Sheet sheet = workbook.getSheetAt(0);    // 获取sheet 0
+                DataFormatter formatter = new DataFormatter();    // 初始化单元格格式化器
+                for (Row row : sheet){    // 获取行
+                    for (Cell cell:row){    // 获得单元格
                         String value = formatter.formatCellValue(cell);
                         System.out.print(String.format("|%s", StringUtils.center(value,10,"　")));
                     }
