@@ -12,9 +12,9 @@ spring:
       port: 6379
     session:
       store-type: redis
-    h2:
-      console:
-        enabled: true
+    jpa:
+          hibernate:
+            ddl-auto: create-drop
     datasource:
           url: "jdbc:h2:file:./test"
           username: sakura
@@ -46,14 +46,14 @@ spring:
       port: 6379
     session:
       store-type: redis
-    datasource:
-          url: "jdbc:mysql://119.28.75.143:3306/campus_project?characterEncoding=utf8&useSSL=false"
-          username: root
-          password: rc452860
-    profiles: mysql
     jpa:
       hibernate:
         ddl-auto: create-drop
+    datasource:
+          url: "jdbc:mysql://119.28.75.143:3306/campus_project?useSSL=false&useUnicode=true&characterEncoding=utf8" #characterEncoding=utf8
+          username: root
+          password: rc452860
+    profiles: mysql
 server:
   port: 8080
 logging:

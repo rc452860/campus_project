@@ -20,7 +20,9 @@ public class CpStudent {
     private String cpFaculty;    // 院系
     @Id
     private String cpIdCardNo;    // 身份证号码
+    private String cpProfessionalName;    //专业名称
     private String cpClass;    // 班级
-    private String cpLevel;    //年级
+    private String cpGrade;    //年级
+    private String cpDegree;    //层次
     private int cpLengthOfSchool;    //学制
 }
