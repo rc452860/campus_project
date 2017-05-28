@@ -8,12 +8,22 @@ import org.apache.poi.ss.usermodel.*;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,89 +37,22 @@ import java.util.List;
 @EnableTransactionManagement
 public class App
 {
-    public static void main( String[] args )
-    {
-        ConfigurableApplicationContext context = new SpringApplicationBuilder()
-                .sources(App.class)
-                .bannerMode(Banner.Mode.OFF)
-                .run(args);
-
-        App app = context.getBean(App.class);
-        app.start();
+    public static void main( String[] args ) throws Exception {
+//        ConfigurableApplicationContext context = new SpringApplicationBuilder()
+//                .sources(App.class)
+//                .bannerMode(Banner.Mode.OFF)
+//                .run(args);
+//
+//        App app = context.getBean(App.class);
+//        app.start();
+        System.out.println(Thread.currentThread().getId());
+        SpringApplication.run(App.class);
 
     }
 
-    @Autowired
-    CpStudentRepository cpStudentRepository;
-
-    @Transactional
-    private void start(){
-        try {
-            File file = new File("file/resource/2009ji.xls");  // 读取Excel表格
-            System.out.println(file.getAbsoluteFile());
-            if(file.exists()){    // 判断文件是否存在
-                Workbook workbook = WorkbookFactory.create(file);    // 通过文件创建WorkBook对象
-                Sheet sheet = workbook.getSheetAt(0);    // 获取sheet 0
-                DataFormatter formatter = new DataFormatter();    // 初始化单元格格式化器
-                List<CpStudent> list = new ArrayList<CpStudent>();
-                System.out.println(sheet.getPhysicalNumberOfRows());
-                for (Row row : sheet){    // 获取行
-                    if (row.getRowNum()>0){
-                        CpStudent cpStudent = new CpStudent();
-                        cpStudent.setCpSno(row.getCell(0).getStringCellValue());
-                        cpStudent.setCpName(row.getCell(1).getStringCellValue());
-                        cpStudent.setCpOldName(row.getCell(2).getStringCellValue());
-                        cpStudent.setCpSex(row.getCell(3).getStringCellValue());
-                        cpStudent.setCpAcademy(row.getCell(4).getStringCellValue());
-                        cpStudent.setCpFaculty(row.getCell(5).getStringCellValue());
-                        cpStudent.setCpIdCardNo(row.getCell(6).getStringCellValue());
-                        cpStudent.setCpProfessionalName(row.getCell(7).getStringCellValue());
-                        cpStudent.setCpClass(row.getCell(8).getStringCellValue());
-                        cpStudent.setCpGrade(formatter.formatCellValue(row.getCell(9)));
-                        cpStudent.setCpDegree(row.getCell(10).getStringCellValue());
-                        cpStudent.setCpLengthOfSchool((int) row.getCell(11).getNumericCellValue());
-                        UniversalDetector detector = new UniversalDetector(null);
-                        detector.handleData(cpStudent.getCpAcademy().getBytes(),0,cpStudent.getCpAcademy().getBytes().length);
-                        detector.dataEnd();
-                        System.out.println(detector.getDetectedCharset());
-                        list.add(cpStudent);
-                    }
-                    System.out.println(row.getRowNum());
-                }
-                System.out.println("start");
-                cpStudentRepository.save(list);
-                System.out.println("done");
-            }else{
-                System.out.println("file is not exists");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        }
-    }
-    private void start2() {
-        try {
-            File file = new File("file/resource/2009ji.xls");  // 读取Excel表格
-            System.out.println(file.getAbsoluteFile());
-            if(file.exists()){    // 判断文件是否存在
-                Workbook workbook = WorkbookFactory.create(file);    // 通过文件创建WorkBook对象
-                Sheet sheet = workbook.getSheetAt(0);    // 获取sheet 0
-                DataFormatter formatter = new DataFormatter();    // 初始化单元格格式化器
-                for (Row row : sheet){    // 获取行
-                    for (Cell cell:row){    // 获得单元格
-                        String value = formatter.formatCellValue(cell);
-                        System.out.print(String.format("|%s", StringUtils.center(value,10,"　")));
-                    }
-                    System.out.print("\n");
-                }
-            }else{
-                System.out.println("file is not exists");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        }
+    @Bean
+    public Object testBean(PlatformTransactionManager platformTransactionManager){
+        System.out.println(">>>>>>>>>>" + platformTransactionManager.getClass().getName());
+        return new Object();
     }
 }

@@ -14,7 +14,6 @@ public class CpStudentServiceImpl implements CpStudentService {
     @Autowired
     CpStudentRepository cpStudentRepository;
 
-    @Override
     public void save(CpStudent cpStudent) {
         cpStudentRepository.save(cpStudent);
     }

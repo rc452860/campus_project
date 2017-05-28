@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
  * Created by rc452 on 2017/5/22.
  */
 public interface CpStudentRepository extends JpaRepository<CpStudent,String> {
+    CpStudent findByCpIdCardNoOrCpSno(String idCard,String CpSno);
 }

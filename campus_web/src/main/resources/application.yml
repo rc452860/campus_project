@@ -1,9 +1,20 @@
 # 查看springboot开启了哪些配置
 debug: false
 
+
+oauth:
+  paths:
+    token: /token
+    authorize: /authorize
+    confirm: /approve
+    check_token: /decode
+    token_key: /key
+
 spring:
   profiles:
     active: mysql
+
+
 ---
 spring:
     redis:
@@ -53,7 +64,7 @@ spring:
     profiles: mysql
     jpa:
       hibernate:
-        ddl-auto: create-drop
+        ddl-auto: update
 server:
   port: 8080
 logging:

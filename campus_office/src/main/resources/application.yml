@@ -48,13 +48,13 @@ spring:
       store-type: redis
     jpa:
       hibernate:
-        ddl-auto: create-drop
+        ddl-auto: update
     datasource:
-          url: "jdbc:mysql://119.28.75.143:3306/campus_project?useSSL=false&useUnicode=true&characterEncoding=utf8" #characterEncoding=utf8
+          url: "jdbc:mysql://119.28.75.143:3306/campus_project?useSSL=false&useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true" #characterEncoding=utf8
           username: root
           password: rc452860
     profiles: mysql
 server:
   port: 8080
 logging:
-  level: info
+  level: debug
