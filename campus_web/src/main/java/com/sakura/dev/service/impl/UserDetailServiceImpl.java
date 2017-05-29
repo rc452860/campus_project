@@ -32,7 +32,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(final String s) throws UsernameNotFoundException {
         final CpStudent student = cpStudentRepository.findByCpIdCardNoOrCpSno(s,s);
         HashSet<GrantedAuthority> set = new HashSet<GrantedAuthority>();
-        set.add(new SimpleGrantedAuthority("ROLE_USER"));
+        set.add(new SimpleGrantedAuthority("user"));
         return new User(s,student.getPassword()==null?s:student.getPassword(),
                 true,
                 true,

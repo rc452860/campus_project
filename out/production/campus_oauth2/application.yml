@@ -34,8 +34,7 @@ spring:
 server:
   port: 8080
 logging:
-  level:
-    root: debug
+  level: info
 
 
 ---
@@ -69,6 +68,4 @@ spring:
 server:
   port: 8080
 logging:
-  level:
-    root: debug
-#    org.springframework.security: DEBUG
+  level: info
