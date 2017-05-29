@@ -37,13 +37,24 @@ import javax.sql.DataSource;
 /**
  * Created by rc452 on 2017/5/26.
  */
+@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     @Autowired
-    @Qualifier("userDetailService")
+    private DataSource dataSource;
+
+    @Autowired
     UserDetailsService userDetailService;
+
+    @Autowired
+    private AuthenticationManager auth;
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService);
+
     }
 
     @Override
@@ -56,12 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @EnableAuthorizationServer
     protected class AuthServerOAuth2Config
             extends AuthorizationServerConfigurerAdapter {
-        @Autowired
-        DataSource dataSource;
-
-        @Autowired
-        @Qualifier("authenticationManagerBean")
-        private AuthenticationManager authenticationManager;
 
 
         @Value("${oauth.paths.token:/oauth/authorize}")
@@ -91,11 +96,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void configure(ClientDetailsServiceConfigurer clients)
                 throws Exception {
+            // @formatter:off
             clients.jdbc(dataSource)
-                    .withClient("campus_project")
-                    .secret("a123")
-                    .scopes("all")
-                    .autoApprove(true);
+                    .withClient("my-trusted-client")
+                    .authorizedGrantTypes("password", "authorization_code",
+                            "refresh_token", "implicit")
+                    .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
+                    .scopes("read", "write", "trust")
+                    .resourceIds("oauth2-resource")
+                    .accessTokenValiditySeconds(60).and()
+                    .withClient("my-client-with-registered-redirect")
+                    .authorizedGrantTypes("authorization_code")
+                    .authorities("ROLE_CLIENT").scopes("read", "trust")
+                    .resourceIds("oauth2-resource")
+                    .redirectUris("http://anywhere?key=value").and()
+                    .withClient("my-client-with-secret")
+                    .authorizedGrantTypes("client_credentials", "password")
+                    .authorities("ROLE_CLIENT").scopes("read")
+                    .resourceIds("oauth2-resource").secret("secret");
+            // @formatter:on
         }
 
         @Override
@@ -106,7 +125,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             // @formatter:off
             endpoints.tokenStore(tokenStore())
-                    .authenticationManager(authenticationManager)
+                    .authenticationManager(auth)
+                    .tokenStore(tokenStore())
                     .pathMapping("/oauth/confirm_access", confirmPath)
                     .pathMapping("/oauth/token", tokenPath)
                     .pathMapping("/oauth/check_token", checkTokenPath)
@@ -119,10 +139,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         public TokenStore tokenStore() {
             return new JdbcTokenStore(dataSource);
         }
-        @Value("classpath:schema.sql")
-        private Resource schemaScript;
+        /*@Value("classpath:schema.sql")
+        private Resource schemaScript;*/
 
-        @Bean
+        /*@Bean
         public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
             DataSourceInitializer initializer = new DataSourceInitializer();
             initializer.setDataSource(dataSource);
@@ -134,7 +154,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
             populator.addScript(schemaScript);
             return populator;
-        }
+        }*/
     }
     @Configurable
     @EnableResourceServer

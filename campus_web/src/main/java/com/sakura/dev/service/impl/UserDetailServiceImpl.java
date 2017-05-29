@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,18 +18,27 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by rc452 on 2017/5/26.
  */
-@Service("userDetailService")
+@Service
 public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     CpStudentRepository cpStudentRepository;
     public UserDetails loadUserByUsername(final String s) throws UsernameNotFoundException {
         final CpStudent student = cpStudentRepository.findByCpIdCardNoOrCpSno(s,s);
-        return new UserDetails() {
+        HashSet<GrantedAuthority> set = new HashSet<GrantedAuthority>();
+        set.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return new User(s,student.getPassword()==null?s:student.getPassword(),
+                true,
+                true,
+                true,
+                true, set);
+        /*return new UserDetails() {
             public Collection<? extends GrantedAuthority> getAuthorities() {
                 return null;
             }
@@ -41,21 +52,21 @@ public class UserDetailServiceImpl implements UserDetailsService {
             }
 
             public boolean isAccountNonExpired() {
-                return false;
+                return true;
             }
 
             public boolean isAccountNonLocked() {
-                return false;
+                return true;
             }
 
             public boolean isCredentialsNonExpired() {
-                return false;
+                return true;
             }
 
             public boolean isEnabled() {
                 return true;
             }
-        };
+        };*/
     }
 }
 

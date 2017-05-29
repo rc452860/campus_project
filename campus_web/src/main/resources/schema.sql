@@ -68,3 +68,5 @@ create table ClientDetails (
   additionalInformation VARCHAR(4096),
   autoApproveScopes VARCHAR(255)
 );
+
+
