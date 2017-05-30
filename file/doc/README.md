@@ -11,8 +11,8 @@ Jpa是一个类似于MyBatis的框架
 但是这个项目中如果重载会报错匿名用户登陆没有权限访问
 
 
-[Spring Security OAuth2, which decides security?](https://stackoverflow.com/questions/28537181/spring-security-oauth2-which-decides-security)
-[Spring boot oauth2 server 实战(maven)](http://www.jianshu.com/p/dd1b0983594c)
+- [Spring Security OAuth2, which decides security?](https://stackoverflow.com/questions/28537181/spring-security-oauth2-which-decides-security)
+- [Spring boot oauth2 server 实战(maven)](http://www.jianshu.com/p/dd1b0983594c)
 
 这个里边会涉及到 Filter顺序问题WebSecurityConfigurerAdapter的默认顺序为0，
 OAuth2的默认顺序为3
@@ -23,10 +23,25 @@ OAuth里边包含用户、客户端、令牌。都有对应的DetailsService。�
 调用的DetailService。有空给出调试路径。
 
 
-[JPA动态查询](http://blog.csdn.net/anxpp/article/details/51996472)
+- [JPA动态查询](http://blog.csdn.net/anxpp/article/details/51996472)
 
-[Spring security 单点登陆(sso)](https://spring.io/blog/2015/02/03/sso-with-oauth2-angular-js-and-spring-security-part-v)
+- [Spring security 单点登陆(sso)](https://spring.io/blog/2015/02/03/sso-with-oauth2-angular-js-and-spring-security-part-v)
 
 
 目前可以登陆了。
 登陆方式参见SpringBoot-seed
+
+
+## 2017年5月31日00:07:49
+添加跨域请求Filter
+SimpleCorsFilter，如果修改端口和连接后请对应修改SimpleCorsFilter中的连接
+``` java
+response.setHeader("Access-Control-Allow-Origin", "http://localhost:8081");
+```
+SecurityContextHolder这个东西可以拿到当前令牌的信息。就是当前登录的主体。
+添加通用specification这个东西挺好用的用法明天写。
+改版自
+- [REST Query Language with Spring Data JPA Specifications](http://www.baeldung.com/rest-api-search-language-spring-data-specifications)
+- [REST Example Project with Spring Security](https://github.com/eugenp/tutorials/tree/master/spring-security-rest-full)
+可以开展相关业务逻辑了。做成两个端。学生一个端教师一个端。分开做
+应当添加班级院系表方便下发权限,具体设计待沟通
