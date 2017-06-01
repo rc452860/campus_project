@@ -10,7 +10,7 @@ import java.util.List;
  * Created by rc452 on 2017/4/27.
  */
 public class GenericSpecBuilder<T> {
-    private List<SearchCriteria> params = new ArrayList<>();
+    private List<SearchCriteria> params = new ArrayList<SearchCriteria>();
     public GenericSpecBuilder with(String key,String operation,Object value){
         return this.with(key, operation, value, false, false);
     }
