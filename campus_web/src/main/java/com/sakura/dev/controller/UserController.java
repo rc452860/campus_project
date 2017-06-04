@@ -1,15 +1,14 @@
 package com.sakura.dev.controller;
 
-import com.sakura.dev.controller.dto.BaseResult;
-import com.sakura.dev.controller.dto.IResult;
 import com.sakura.dev.controller.dto.UserAccount;
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.service.CpStudentService;
+import com.sakura.dev.utils.Result;
+import com.sakura.dev.utils.ResultUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -47,16 +46,14 @@ public class UserController {
      * @return
      */
     @PostMapping("/modify/password")
-    public IResult modifyPassword(@RequestBody UserAccount account){
+    public Result modifyPassword(@RequestBody UserAccount account){
         logger.info("修改密码");
-        BaseResult result = new BaseResult();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //获取当前用户
         CpStudent student = cpStudentService.get(user.getUsername());
         if (cpStudentService.updatePassword(student,account)){
-            result.setResult("success");
+            return ResultUtils.success();
         }else {
-            result.setResult("failure");
+            return ResultUtils.error(1,"修改失败！");
         }
-        return result;
     }
 }
