@@ -1,10 +1,17 @@
 package com.sakura.dev.service;
 
+import com.sakura.dev.controller.dto.BaseResult;
+import com.sakura.dev.controller.dto.IResult;
+import com.sakura.dev.controller.dto.UserAccount;
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.repository.CpStudentRepository;
+import org.dom4j.tree.BackedList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * Created by rc452 on 2017/5/22.
@@ -13,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CpStudentService{
     @Autowired
     CpStudentRepository cpStudentRepository;
-
+    private Logger logger = LoggerFactory.getLogger(CpStudentService.class);
     public CpStudent save(CpStudent cpStudent) {
         return cpStudentRepository.save(cpStudent);
     }
@@ -50,5 +57,29 @@ public class CpStudentService{
      */
     public CpStudent restPassowrd(String username) {
         return resetPassword(this.get(username));
+    }
+
+
+    /**
+     * 修改密码
+     * @param cpStudent
+     * @param account
+     * @return
+     */
+    public Boolean updatePassword(CpStudent cpStudent, UserAccount account){
+        if (StringUtils.isEmpty(cpStudent.getPassword())){
+            if (account.getPassword().equals(cpStudent.getCpIdCardNo())||account.getPassword().equals(cpStudent.getCpSno())){
+                cpStudent.setPassword(account.getNew_password());
+                cpStudentRepository.save(cpStudent);
+                return true;
+            }
+        }else {
+            if (cpStudent.getPassword().equals(account.getPassword())){
+                cpStudent.setPassword(account.getNew_password());
+                cpStudentRepository.save(cpStudent);
+                return true;
+            }
+        }
+        return false;
     }
 }
