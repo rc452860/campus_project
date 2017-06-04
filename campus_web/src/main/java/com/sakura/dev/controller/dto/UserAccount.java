@@ -3,7 +3,7 @@ package com.sakura.dev.controller.dto;
 /**
  * Created by yth on 2017/6/4.
  */
-public class UserAccount extends BaseResult{
+public class UserAccount{
     private String password;
     private String new_password;
 

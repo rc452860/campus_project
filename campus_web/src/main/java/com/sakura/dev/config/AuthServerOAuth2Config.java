@@ -56,8 +56,7 @@ public class AuthServerOAuth2Config
     public void configure(
             AuthorizationServerSecurityConfigurer oauthServer)
             throws Exception {
-        oauthServer
-                .checkTokenAccess("isAuthenticated()");
+        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 
     @Override

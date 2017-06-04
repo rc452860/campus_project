@@ -1,7 +1,5 @@
 package com.sakura.dev.service;
 
-import com.sakura.dev.controller.dto.BaseResult;
-import com.sakura.dev.controller.dto.IResult;
 import com.sakura.dev.controller.dto.UserAccount;
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.repository.CpStudentRepository;
