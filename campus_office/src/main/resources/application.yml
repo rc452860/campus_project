@@ -3,7 +3,7 @@ debug: false
 
 spring:
   profiles:
-    active: mysql
+    active: mysql-local
 ---
 spring:
     redis:
@@ -54,6 +54,28 @@ spring:
           username: root
           password: rc452860
     profiles: mysql
+
+server:
+  port: 8080
+logging:
+  level: debug
+---
+spring:
+    redis:
+      host: 119.28.75.143
+      database: 0
+      port: 6379
+    session:
+      store-type: redis
+    jpa:
+      hibernate:
+        ddl-auto: update
+    datasource:
+          url: "jdbc:mysql://localhost:3306/campus_project?useSSL=false&useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&createDatabaseIfNotExist=true" #characterEncoding=utf8
+          username: root
+          password: root
+    profiles: mysql-local
+
 server:
   port: 8080
 logging:

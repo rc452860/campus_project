@@ -45,3 +45,17 @@ SecurityContextHolder这个东西可以拿到当前令牌的信息。就是当�
 - [REST Example Project with Spring Security](https://github.com/eugenp/tutorials/tree/master/spring-security-rest-full)
 可以开展相关业务逻辑了。做成两个端。学生一个端教师一个端。分开做
 应当添加班级院系表方便下发权限,具体设计待沟通
+
+
+## 2017年6月3日18:37:18 数据库编码问题
+[MySql修改数据库编码为UTF8](http://blog.csdn.net/qiyuexuelang/article/details/9049985)
+```sql
+--临时方法
+alter database campus_project character set utf8;
+
+SET character_set_client = utf8;  
+SET character_set_connection = utf8;  
+SET character_set_database = utf8;  
+SET character_set_results = utf8;  
+SET character_set_server = utf8;  
+```

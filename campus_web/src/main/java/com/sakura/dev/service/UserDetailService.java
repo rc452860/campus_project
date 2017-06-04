@@ -1,4 +1,4 @@
-package com.sakura.dev.service.impl;
+package com.sakura.dev.service;
 
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.repository.CpStudentRepository;
@@ -26,7 +26,7 @@ import java.util.HashSet;
  * Created by rc452 on 2017/5/26.
  */
 @Service
-public class UserDetailServiceImpl implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
     @Autowired
     CpStudentRepository cpStudentRepository;
     public UserDetails loadUserByUsername(final String s) throws UsernameNotFoundException {
