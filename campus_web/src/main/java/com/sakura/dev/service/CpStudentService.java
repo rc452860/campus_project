@@ -1,5 +1,6 @@
 package com.sakura.dev.service;
 
+import com.sakura.dev.controller.dto.LoginRequest;
 import com.sakura.dev.controller.dto.UserAccount;
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.repository.CpStudentRepository;
@@ -78,5 +79,10 @@ public class CpStudentService{
             }
         }
         return false;
+    }
+
+    public CpStudent login(LoginRequest loginRequest) {
+        CpStudent cpStudent = this.get(loginRequest.getUsername());
+        return cpStudent.getPassword().equals(loginRequest.getPassword())?cpStudent:null;
     }
 }
