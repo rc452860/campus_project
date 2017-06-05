@@ -83,6 +83,10 @@ public class CpStudentService{
 
     public CpStudent login(LoginRequest loginRequest) {
         CpStudent cpStudent = this.get(loginRequest.getUsername());
-        return cpStudent.getPassword().equals(loginRequest.getPassword())?cpStudent:null;
+        if(cpStudent!=null&&cpStudent.getPassword()==null){
+            return loginRequest.getUsername().equals(loginRequest.getPassword())?cpStudent:null;
+        }else{
+            return loginRequest.getPassword().equals(loginRequest.getPassword())?cpStudent:null;
+        }
     }
 }

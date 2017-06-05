@@ -10,8 +10,6 @@ import com.sakura.dev.utils.ResultUtils;
 import com.sun.prism.impl.BaseResourceFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -29,7 +27,7 @@ public class UserController {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
     @PostMapping("/login")
-    public Object login(LoginRequest loginRequest){
+    public BaseResponse login(@RequestBody  LoginRequest loginRequest){
         BaseResponse baseResponse = new BaseResponse();
         CpStudent cpStudent = cpStudentService.login(loginRequest);
         if (cpStudent!=null){
@@ -45,10 +43,13 @@ public class UserController {
      * @return
      */
     @PostMapping("/rest_password")
-    public Object modify(CpStudent arg){
+    public BaseResponse modify(CpStudent arg){
         logger.info("重置密码");
         CpStudent cpStudent = (CpStudent) session.getAttribute("user");
-        return cpStudentService.restPassowrd(cpStudent.getCpIdCardNo());
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatus(BaseResponse.SUCCESS);
+        baseResponse.setData("重置密码成功");
+        return baseResponse;
     }
 
     /**
