@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 /**
+ * 贫困生简单
  * Created by yth on 2017/5/27.
  */
 @Entity
@@ -57,4 +58,5 @@ public class CpPoorBuild {
     private String cpLowSecurity;   //低保证材料
     private String cpCondition;    //病情证明材料
     private String cpAwards;   //获奖证明材料
+
 }
