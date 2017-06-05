@@ -34,7 +34,7 @@ public class CpStudent {
     private CpAcademy cpMajor;
 
     @OneToOne
-    @JoinColumn(name = "cp_class",foreignKey = @ForeignKey(name = "none"))
+    @JoinColumn(name = "cp_class",foreignKey = @ForeignKey(name = "none")) 
     private CpAcademy cpClass;
 
 }

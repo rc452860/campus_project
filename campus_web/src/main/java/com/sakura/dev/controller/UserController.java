@@ -1,6 +1,7 @@
 package com.sakura.dev.controller;
 
 import com.sakura.dev.controller.dto.UserAccount;
+import com.sakura.dev.domain.CpPoorBuild;
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.service.CpStudentService;
 import com.sakura.dev.utils.Result;
@@ -55,5 +56,19 @@ public class UserController {
         }else {
             return ResultUtils.error(1,"修改失败！");
         }
+    }
+
+    /**
+     * 获取学生基本信息
+     * @return
+     */
+    @GetMapping("/getinfo")
+    public Result<CpStudent>  getStudengDetail(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CpStudent cpStudent = cpStudentService.get(user.getUsername());
+        if (cpStudent!=null){
+            return ResultUtils.success(cpStudent);
+        }
+        return ResultUtils.error(1,"用不存在");
     }
 }
