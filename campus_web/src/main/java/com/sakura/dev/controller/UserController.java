@@ -27,16 +27,20 @@ public class UserController {
     HttpSession session;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
+
+    /**
+     * 学生登录
+     * @param loginRequest
+     * @return
+     */
     @PostMapping("/login")
-    public BaseResponse login(@RequestBody  LoginRequest loginRequest){
-        BaseResponse baseResponse = new BaseResponse();
+    public Result login(@RequestBody  LoginRequest loginRequest){
         CpStudent cpStudent = cpStudentService.login(loginRequest);
         if (cpStudent!=null){
-            baseResponse.setStatus(BaseResponse.SUCCESS);
-            baseResponse.setData(cpStudent);
             session.setAttribute("user",cpStudent);
+            return ResultUtils.success(cpStudent);
         }
-        return baseResponse;
+       return ResultUtils.error(1,"登录失败！");
     }
     /**
      * 重置密码
@@ -75,11 +79,12 @@ public class UserController {
      */
     @GetMapping("/getinfo")
     public Result<CpStudent>  getStudengDetail(){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CpStudent cpStudent = cpStudentService.get(user.getUsername());
+        CpStudent cpStudent = (CpStudent) session.getAttribute("user");
         if (cpStudent!=null){
             return ResultUtils.success(cpStudent);
         }
         return ResultUtils.error(1,"用不存在");
     }
+
+
 }
