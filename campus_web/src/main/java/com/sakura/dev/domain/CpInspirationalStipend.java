@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.Date;
 
 /**
@@ -47,4 +48,7 @@ public class CpInspirationalStipend {
     private String cpParentsTel;  //家长联系方式
     private String cpApplicationReason;  //申请理由
 
+    @OneToOne
+    @org.hibernate.annotations.ForeignKey(name = "none")
+    private CpApplyInfo cpApplyInfo;
 }
