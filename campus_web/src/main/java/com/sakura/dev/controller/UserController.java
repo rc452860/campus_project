@@ -11,6 +11,9 @@ import com.sakura.dev.utils.ResultUtils;
 import com.sun.prism.impl.BaseResourceFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -34,13 +37,13 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public Result login(@RequestBody  LoginRequest loginRequest){
+    public BaseResponse login(@RequestBody  LoginRequest loginRequest){
         CpStudent cpStudent = cpStudentService.login(loginRequest);
         if (cpStudent!=null){
             session.setAttribute("user",cpStudent);
-            return ResultUtils.success(cpStudent);
+            return BaseResponse.OK(cpStudent);
         }
-       return ResultUtils.error(1,"登录失败！");
+        return BaseResponse.FAILD("登陆失败");
     }
     /**
      * 重置密码
@@ -86,5 +89,11 @@ public class UserController {
         return ResultUtils.error(1,"用不存在");
     }
 
+    @GetMapping
+    public Page<CpStudent> CpStudentList(@RequestParam(required = false,defaultValue = "1") int page,
+                                         @RequestParam(required = false,defaultValue = "10") int size){
+        Pageable pageable = new PageRequest(page,size);
+        return cpStudentService.findAll(pageable);
+    }
 
 }

@@ -7,9 +7,12 @@ import com.sakura.dev.repository.CpStudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import java.util.*;
 
 /**
  * Created by rc452 on 2017/5/22.
@@ -88,5 +91,9 @@ public class CpStudentService{
         }else{
             return loginRequest.getPassword().equals(loginRequest.getPassword())?cpStudent:null;
         }
+    }
+
+    public Page<CpStudent> findAll(Pageable pageable){
+        return cpStudentRepository.findAll(pageable);
     }
 }

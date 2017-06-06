@@ -1,5 +1,6 @@
 package com.sakura.dev.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sakura.dev.repository.CpStudentRepository;
 import lombok.Data;
 import org.hibernate.annotations.*;
@@ -22,7 +23,7 @@ public class CpStudent {
     private String cpName;   // 姓名
     private String cpOldName;   // 曾用名
     private String cpSex;    // 性别
-
+    @JsonIgnore
     private String password;     //密码
 
     @OneToOne
