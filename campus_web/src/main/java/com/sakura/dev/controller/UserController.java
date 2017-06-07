@@ -89,7 +89,13 @@ public class UserController {
         return ResultUtils.error(1,"用不存在");
     }
 
-    @GetMapping
+    /**
+     * 获取学生基本信息
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping("/studentList")
     public Page<CpStudent> CpStudentList(@RequestParam(required = false,defaultValue = "1") int page,
                                          @RequestParam(required = false,defaultValue = "10") int size){
         Pageable pageable = new PageRequest(page,size);

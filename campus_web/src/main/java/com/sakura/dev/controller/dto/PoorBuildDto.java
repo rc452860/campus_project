@@ -1,20 +1,12 @@
-package com.sakura.dev.domain;
+package com.sakura.dev.controller.dto;
 
-import lombok.Data;
-import org.hibernate.annotations.Columns;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
 /**
- * 贫困生简单
- * Created by yth on 2017/5/27.
+ * Created by yth on 2017/6/7.
  */
-@Entity
-@Data
-public class CpPoorBuild {
+public class PoorBuildDto {
     private String cpCollege;  //学院
     private Date cpWriteTime;  //填表时间
     private String cpName;  //姓名
@@ -29,7 +21,6 @@ public class CpPoorBuild {
     private String cpRoom;  //寝室
     private String cpTel;  //联系方式
     private String cpInsurance;  //是否购买保险
-    @Id
     private String cpCard;   //身份证号
     private String cpBankCard;  //银行卡号
     private String cpAddress;  //家庭住址
@@ -60,9 +51,4 @@ public class CpPoorBuild {
     private String cpLowSecurity;   //低保证材料
     private String cpCondition;    //病情证明材料
     private String cpAwards;   //获奖证明材料
-    private Integer cpCounselorResult = 0;   //辅导员审核结果：0表示不通过，1表示通过
-    private String cpCounselorRemarks;  //辅导员审核备注
-    private Integer cpSuperResult = 0;  //学工部审核结果：0表示不通过，1表示通过
-    private String cpSuperRemarks;  //学工部审核备注
-
 }

@@ -2,6 +2,7 @@ package com.sakura.dev.domain;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
@@ -54,4 +55,10 @@ public class CpStipendApplication {
     private String cpOthers3Relation;  //其他成员3与本人关系
     private String cpOthers3WorkAddress;    //其他成员3工作单位
     private String cpApplicationReason;  //申请理由
+    @Column(name="cpCounselorResult",columnDefinition="tinyint default 0")
+    private Integer cpCounselorResult;   //辅导员审核结果：0表示不通过，1表示通过
+    private String cpCounselorRemarks;  //辅导员审核备注
+    @Column(name="cpSuperResult",columnDefinition="tinyint default 0")
+    private Integer cpSuperResult;  //学工部审核结果：0表示不通过，1表示通过
+    private String cpSuperRemarks;  //学工部审核备注
 }

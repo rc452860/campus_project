@@ -47,6 +47,10 @@ public class CpInspirationalStipend {
     private String cpFamilyAddress;  //家庭地址
     private String cpParentsTel;  //家长联系方式
     private String cpApplicationReason;  //申请理由
+    private Integer cpCounselorResult;   //辅导员审核结果：0表示不通过，1表示通过
+    private String cpCounselorRemarks;  //辅导员审核备注
+    private Integer cpSuperResult;  //学工部审核结果：0表示不通过，1表示通过
+    private String cpSuperRemarks;  //学工部审核备注
 
     @OneToOne
     @org.hibernate.annotations.ForeignKey(name = "none")
