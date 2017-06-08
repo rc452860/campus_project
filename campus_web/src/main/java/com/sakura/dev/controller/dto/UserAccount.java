@@ -1,6 +1,5 @@
 package com.sakura.dev.controller.dto;
 
-import com.sakura.dev.utils.Result;
 
 /**
  * Created by yth on 2017/6/4.
