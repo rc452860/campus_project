@@ -13,6 +13,8 @@ oauth:
 spring:
   profiles:
     active: mysql
+  cache:
+    type: simple
 
 ---
 spring:

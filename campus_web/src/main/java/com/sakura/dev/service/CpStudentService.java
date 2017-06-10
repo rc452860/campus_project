@@ -7,6 +7,8 @@ import com.sakura.dev.repository.CpStudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.*;
  * Created by rc452 on 2017/5/22.
  */
 @Service
+@CacheConfig(cacheNames = "students")
 public class CpStudentService{
     @Autowired
     CpStudentRepository cpStudentRepository;
@@ -25,17 +28,17 @@ public class CpStudentService{
     public CpStudent save(CpStudent cpStudent) {
         return cpStudentRepository.save(cpStudent);
     }
-
+    @Cacheable
     @Transactional
     public CpStudent getOrCreate(CpStudent arg){
         CpStudent cpStudent = cpStudentRepository.findByCpIdCardNoOrCpSno(arg.getCpIdCardNo(),arg.getCpSno());
         return cpStudent == null?cpStudentRepository.save(arg):cpStudent;
     }
-
+    @Cacheable(key = "#arg")
     public CpStudent get(CpStudent arg){
         return cpStudentRepository.findByCpIdCardNoOrCpSno(arg.getCpIdCardNo(),arg.getCpSno());
     }
-
+    @Cacheable(key = "#arg")
     public CpStudent get(String arg){
         return cpStudentRepository.findByCpIdCardNoOrCpSno(arg,arg);
     }
@@ -92,7 +95,7 @@ public class CpStudentService{
             return loginRequest.getPassword().equals(loginRequest.getPassword())?cpStudent:null;
         }
     }
-
+    @Cacheable
     public Page<CpStudent> findAll(Pageable pageable){
         return cpStudentRepository.findAll(pageable);
     }

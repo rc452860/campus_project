@@ -28,7 +28,10 @@ public class CpAcademy {
     private int cpRank;
     private String cpDegree;
     private int cpLength;
-    private long cpParent;
+    @OneToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "none"))
+    @org.hibernate.annotations.ForeignKey(name = "none")
+    private CpAcademy cpParent;
     private String cpLevel;
     @ManyToMany
     @JoinColumn(foreignKey = @ForeignKey(name = "none"))
@@ -49,11 +52,11 @@ public class CpAcademy {
      * @param cpLength 学制
      * @param cpParent 上级
      */
-    public CpAcademy(String cpName, int cpRank, String cpDegree, int cpLength,long cpParent) {
+    public CpAcademy(String cpName, int cpRank, String cpDegree, int cpLength,CpAcademy cpParent) {
         this(cpName,cpRank,cpDegree,cpLength,cpParent,null,null);
     }
 
-    public CpAcademy(String cpName, int cpRank, String cpDegree, int cpLength, long cpParent, String cpLevel){
+    public CpAcademy(String cpName, int cpRank, String cpDegree, int cpLength, CpAcademy cpParent, String cpLevel){
         this(cpName,cpRank,cpDegree,cpLength,cpParent,cpLevel,null);
     }
 
@@ -67,7 +70,7 @@ public class CpAcademy {
      * @param cpLevel 年级
      * @param cpTeacher 权限
      */
-    public CpAcademy(String cpName, int cpRank, String cpDegree, int cpLength, long cpParent, String cpLevel, Set<CpTeacher> cpTeacher) {
+    public CpAcademy(String cpName, int cpRank, String cpDegree, int cpLength, CpAcademy cpParent, String cpLevel, Set<CpTeacher> cpTeacher) {
         this.cpName = cpName;
         this.cpRank = cpRank;
         this.cpDegree = cpDegree;

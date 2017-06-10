@@ -92,7 +92,7 @@ public class MyRunner implements CommandLineRunner {
         CpAcademy academy = academyHashMap.computeIfAbsent(
                 f,
                 (String k)->{
-                    CpAcademy temp =  new CpAcademy(k,1,null,0,0);
+                    CpAcademy temp =  new CpAcademy(k,1,null,0,null);
                     temp = cpAcademyService.getOrCreate(temp);
                     return temp;
                 }
@@ -106,7 +106,7 @@ public class MyRunner implements CommandLineRunner {
                             2,
                             row.getCell(10).getStringCellValue(),
                             (int) row.getCell(11).getNumericCellValue(),
-                            academy.getCpId());
+                            academy);
                     temp = cpAcademyService.getOrCreate(temp);
                     return temp;
 
@@ -122,7 +122,7 @@ public class MyRunner implements CommandLineRunner {
                             3,
                             row.getCell(10).getStringCellValue(),
                             (int) row.getCell(11).getNumericCellValue(),
-                            major.getCpId(),
+                            major,
                             dataFormatter.formatCellValue(row.getCell(9))
                     );
                     temp = cpAcademyService.getOrCreate(temp);

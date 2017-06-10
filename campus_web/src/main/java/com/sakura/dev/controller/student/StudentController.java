@@ -91,7 +91,7 @@ public class StudentController {
      * @param size
      * @return
      */
-    @GetMapping("/studentList")
+    @GetMapping("/list")
     public Page<CpStudent> CpStudentList(@RequestParam(required = false,defaultValue = "1") int page,
                                          @RequestParam(required = false,defaultValue = "10") int size){
         Pageable pageable = new PageRequest(page,size);
