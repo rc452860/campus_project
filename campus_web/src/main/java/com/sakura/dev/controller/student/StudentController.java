@@ -36,7 +36,7 @@ public class StudentController {
     public Result login(@RequestBody  LoginRequest loginRequest){
         CpStudent cpStudent = cpStudentService.login(loginRequest);
         if (cpStudent!=null){
-            session.setAttribute("user",cpStudent);
+            session.setAttribute("student",cpStudent);
             return Result.OK(cpStudent);
         }
         return Result.FAILD("登陆失败");
@@ -49,7 +49,7 @@ public class StudentController {
     @PostMapping("/rest_password")
     public Result modify(CpStudent arg){
         logger.info("重置密码");
-        CpStudent cpStudent = (CpStudent) session.getAttribute("user");
+        CpStudent cpStudent = (CpStudent) session.getAttribute("student");
         Result result = new Result();
         result.setStatus(Result.SUCCESS);
         result.setData("重置密码成功");
@@ -64,7 +64,7 @@ public class StudentController {
     @PostMapping("/modify/password")
     public Result modifyPassword(@RequestBody UserAccount account){
         logger.info("修改密码");
-        CpStudent student = (CpStudent) session.getAttribute("user");
+        CpStudent student = (CpStudent) session.getAttribute("student");
         if (cpStudentService.updatePassword(student,account)){
             return Result.OK("修改成功");
         }else {
@@ -78,7 +78,7 @@ public class StudentController {
      */
     @GetMapping("/getinfo")
     public Result getStudengDetail(){
-        CpStudent cpStudent = (CpStudent) session.getAttribute("user");
+        CpStudent cpStudent = (CpStudent) session.getAttribute("student");
         if (cpStudent!=null){
             return Result.OK(cpStudent);
         }

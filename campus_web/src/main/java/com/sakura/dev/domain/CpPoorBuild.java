@@ -15,22 +15,25 @@ import java.util.Date;
 @Entity
 @Data
 public class CpPoorBuild {
-    private String cpCollege;  //学院
-    private Date cpWriteTime;  //填表时间
+    private String cpSno;    //学号
+    private String cpAcademy;  //学院
     private String cpName;  //姓名
     private String cpSex;  //性别
+    private int cpStudyLength;  //学制
+    private String cpGrade;  //年级
+    private String cpMajor;
+    private String cpClass;  //班级
+    private String cpIdCardNo;   //身份证号
+    private Date cpWriteTime;  //填表时间
     private Date cpBirthday;  //出身年月
     private String cpNationality;  //名族
     private String cpImg;  //头像
-    private String cpStudyLength;  //学制
-    private String cpGrade;  //年级
-    private String cpClass;  //班级
+
     private String cpPolitical;  //政治面貌
     private String cpRoom;  //寝室
     private String cpTel;  //联系方式
     private String cpInsurance;  //是否购买保险
     @Id
-    private String cpCard;   //身份证号
     private String cpBankCard;  //银行卡号
     private String cpAddress;  //家庭住址
     private String cpPostcode;  //邮政编码

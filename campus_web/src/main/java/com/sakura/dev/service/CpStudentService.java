@@ -36,6 +36,9 @@ public class CpStudentService{
     }
     @Cacheable(key = "#arg")
     public CpStudent get(CpStudent arg){
+        if (arg == null&&arg.getCpIdCardNo() == null&&arg.getCpSno() == null){
+            return null;
+        }
         return cpStudentRepository.findByCpIdCardNoOrCpSno(arg.getCpIdCardNo(),arg.getCpSno());
     }
     @Cacheable(key = "#arg")

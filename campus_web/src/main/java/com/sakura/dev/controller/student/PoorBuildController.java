@@ -3,10 +3,14 @@ package com.sakura.dev.controller.student;
 import com.sakura.dev.controller.dto.AuditReuqest;
 import com.sakura.dev.controller.dto.Result;
 import com.sakura.dev.domain.CpPoorBuild;
+import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.service.CpPoorBuildService;
+import com.sakura.dev.service.CpStudentService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 贫困建档Controller
@@ -17,8 +21,23 @@ import org.springframework.web.bind.annotation.*;
 public class PoorBuildController {
     @Autowired
     CpPoorBuildService cpPoorBuildService;
+    @Autowired
+    CpStudentService cpStudentService;
+
+    @Autowired
+    HttpSession session;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
+    @GetMapping
+    public Result apply(){
+        CpStudent cpStudent = (CpStudent) session.getAttribute("student");
+        CpPoorBuild cpPoorBuild =  cpPoorBuildService.getBaseInfo(cpStudent);
+        if(cpPoorBuild!=null){
+            return Result.OK(cpPoorBuild);
+        }else {
+            return Result.ERR("找不到学生基本信息");
+        }
+    }
 
     @PostMapping("/application")
     public Result stipendApplication(@RequestBody CpPoorBuild cpPoorBuild){

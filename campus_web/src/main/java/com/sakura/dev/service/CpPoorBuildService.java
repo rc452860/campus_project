@@ -2,6 +2,7 @@ package com.sakura.dev.service;
 
 import com.sakura.dev.domain.CpPoorBuild;
 import com.sakura.dev.domain.CpStipendApplication;
+import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.repository.CpPoorBuildRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class CpPoorBuildService {
     @Autowired
     CpPoorBuildRepository cpPoorBuildRepository;
+    @Autowired
+    CpStudentService cpStudentService;
     /**
      * 建档表插入学生
      * @param cpPoorBuild
@@ -37,5 +40,29 @@ public class CpPoorBuildService {
             return cpPoorBuild;
         }
         return null;
+    }
+
+    /**
+     * 复制学生基本信息并返回
+     * @param arg
+     * @return
+     */
+	public CpPoorBuild getBaseInfo(CpStudent arg) {
+        CpStudent cpStudent = cpStudentService.get(arg);
+
+        if (cpStudent!=null){
+            CpPoorBuild cpPoorBuild = new CpPoorBuild();
+            cpPoorBuild.setCpSno(cpStudent.getCpSno());
+            cpPoorBuild.setCpAcademy(cpStudent.getCpAcademy().getCpName());
+            cpPoorBuild.setCpIdCardNo(cpStudent.getCpIdCardNo());
+            cpPoorBuild.setCpSex(cpStudent.getCpSex());
+            cpPoorBuild.setCpClass(cpStudent.getClass().getName());
+            cpPoorBuild.setCpMajor(cpStudent.getCpMajor().getCpName());
+            cpPoorBuild.setCpStudyLength(cpStudent.getCpMajor().getCpLength());
+
+            return cpPoorBuild;
+        }
+        return null;
+
     }
 }
