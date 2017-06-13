@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.stereotype.Component;
 
 @SpringBootApplication

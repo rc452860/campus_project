@@ -13,18 +13,40 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 import org.springframework.session.ExpiringSession;
+import org.springframework.session.MapSessionRepository;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionStrategy;
+import org.springframework.session.web.http.HttpSessionStrategy;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by rc452 on 2017/5/21.
  */
 
 @Configuration
+@EnableSpringHttpSession
 public class SessionConfig {
 
+//    @Bean
+//    public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
+//        return new GenericJackson2JsonRedisSerializer();
+//    }
+
     @Bean
-    public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
-        return new GenericJackson2JsonRedisSerializer();
+    SessionRepository<ExpiringSession> inmemorySessionRepository() {
+        return new MapSessionRepository();
     }
 
+//    @Bean
+//    HttpSessionStrategy httpSessionStrategy() {
+//        HeaderHttpSessionStrategy sessionStrategy = new HeaderHttpSessionStrategy();
+//        sessionStrategy.setHeaderName("auth_id");
+//        return sessionStrategy;
+//
+//    }
 }

@@ -59,3 +59,6 @@ SET character_set_database = utf8;
 SET character_set_results = utf8;  
 SET character_set_server = utf8;  
 ```
+
+## 界面对照这个写一下
+http://element.eleme.io/#/zh-CN/component/form

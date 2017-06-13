@@ -53,10 +53,12 @@ public class CpPoorBuildService {
         if (cpStudent!=null){
             CpPoorBuild cpPoorBuild = new CpPoorBuild();
             cpPoorBuild.setCpSno(cpStudent.getCpSno());
+            cpPoorBuild.setCpName(cpStudent.getCpName());
+            cpPoorBuild.setCpGrade(cpStudent.getCpClass().getCpLevel());
             cpPoorBuild.setCpAcademy(cpStudent.getCpAcademy().getCpName());
             cpPoorBuild.setCpIdCardNo(cpStudent.getCpIdCardNo());
             cpPoorBuild.setCpSex(cpStudent.getCpSex());
-            cpPoorBuild.setCpClass(cpStudent.getClass().getName());
+            cpPoorBuild.setCpClass(cpStudent.getCpClass().getCpName());
             cpPoorBuild.setCpMajor(cpStudent.getCpMajor().getCpName());
             cpPoorBuild.setCpStudyLength(cpStudent.getCpMajor().getCpLength());
 

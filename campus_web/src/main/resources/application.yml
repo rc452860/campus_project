@@ -58,11 +58,11 @@ spring:
       database: 0
       port: 6379
     session:
-      store-type: redis
+      store-type: hash_map
     datasource:
-          url: "jdbc:mysql://119.28.75.143:3306/campus_project?characterEncoding=utf8&useSSL=false"
+          url: "jdbc:mysql://localhost:3306/campus_project?characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true"
           username: root
-          password: rc452860
+          password: root
     profiles: mysql
     jpa:
       hibernate:
