@@ -24,7 +24,7 @@ public class CpStudent {
     private String cpOldName;   // 曾用名
     private String cpSex;    // 性别
     @JsonIgnore
-    private String password;     //密码
+    private String cpPassword;     //密码
 
     @OneToOne
     @JoinColumn(name = "cp_academy",foreignKey = @ForeignKey(name = "none"))

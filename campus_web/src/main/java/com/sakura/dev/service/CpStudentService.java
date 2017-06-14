@@ -53,7 +53,7 @@ public class CpStudentService{
      */
     public CpStudent resetPassword(CpStudent arg){
         CpStudent cpStudent = this.get(arg);
-        cpStudent.setPassword(null);
+        cpStudent.setCpPassword(null);
         return cpStudentRepository.save(cpStudent);
     }
 
@@ -74,15 +74,15 @@ public class CpStudentService{
      * @return
      */
     public Boolean updatePassword(CpStudent cpStudent, UserAccount account){
-        if (StringUtils.isEmpty(cpStudent.getPassword())){
+        if (StringUtils.isEmpty(cpStudent.getCpPassword())){
             if (account.getPassword().equals(cpStudent.getCpIdCardNo())||account.getPassword().equals(cpStudent.getCpSno())){
-                cpStudent.setPassword(account.getNew_password());
+                cpStudent.setCpPassword(account.getNew_password());
                 cpStudentRepository.save(cpStudent);
                 return true;
             }
         }else {
-            if (cpStudent.getPassword().equals(account.getPassword())){
-                cpStudent.setPassword(account.getNew_password());
+            if (cpStudent.getCpPassword().equals(account.getPassword())){
+                cpStudent.setCpPassword(account.getNew_password());
                 cpStudentRepository.save(cpStudent);
                 return true;
             }
@@ -92,7 +92,7 @@ public class CpStudentService{
 
     public CpStudent login(LoginRequest loginRequest) {
         CpStudent cpStudent = this.get(loginRequest.getUsername());
-        if(cpStudent!=null&&cpStudent.getPassword()==null){
+        if(cpStudent!=null&&cpStudent.getCpPassword()==null){
             return loginRequest.getUsername().equals(loginRequest.getPassword())?cpStudent:null;
         }else{
             return loginRequest.getPassword().equals(loginRequest.getPassword())?cpStudent:null;

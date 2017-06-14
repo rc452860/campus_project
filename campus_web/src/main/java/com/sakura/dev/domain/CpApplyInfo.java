@@ -20,6 +20,8 @@ public class CpApplyInfo {
     private Date cpStart;    //开放时间
     private Date cpEnd;    //结束时间
 
+    public CpApplyInfo(){}
+
     public CpApplyInfo(String cpName, Date cpStart, Date cpEnd) {
         this.cpName = cpName;
         this.cpStart = cpStart;
