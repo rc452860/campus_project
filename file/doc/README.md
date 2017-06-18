@@ -62,3 +62,37 @@ SET character_set_server = utf8;
 
 ## 界面对照这个写一下
 http://element.eleme.io/#/zh-CN/component/form
+
+### 2017年6月18日13:44:26
+javascript 反序列化字符串时时间类型为String的问题
+```javascript
+{
+    "date": "2016-04-26T18:09:16Z"
+}
+
+const body = `{
+    "date": "2016-04-26T18:09:16Z"
+}`;
+
+const obj = JSON.parse(body);
+
+const { date } = obj;
+console.log(typeof date);
+// "string"
+
+const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+
+function reviver(key, value) {
+    if (typeof value === "string" && dateFormat.test(value)) {
+        return new Date(value);
+    }
+    
+    return value;
+}
+
+const text = '{ "date": "2016-04-26T18:09:16Z" }';
+const obj = JSON.parse(text, reviver);
+
+console.log(typeof obj.date);
+// "object"
+```

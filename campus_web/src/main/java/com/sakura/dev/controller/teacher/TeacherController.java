@@ -2,10 +2,9 @@ package com.sakura.dev.controller.teacher;
 
 import com.sakura.dev.controller.dto.LoginRequest;
 import com.sakura.dev.controller.dto.Result;
-import com.sakura.dev.domain.CpApplyInfo;
-import com.sakura.dev.domain.CpStudent;
+import com.sakura.dev.domain.CpDocTag;
 import com.sakura.dev.domain.CpTeacher;
-import com.sakura.dev.service.CpApplyInfoService;
+import com.sakura.dev.service.CpDocTagService;
 import com.sakura.dev.service.CpTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ public class TeacherController {
 	CpTeacherService cpTeacherService;
 
 	@Autowired
-	CpApplyInfoService cpApplyInfoService;
+	CpDocTagService cpDocTagService;
 
 	@Autowired
 	HttpSession session;
@@ -38,17 +37,18 @@ public class TeacherController {
 	}
 
 	@PostMapping("/open")
-	public Result open(@RequestBody CpApplyInfo cpApplyInfo){
-		if (cpApplyInfoService.existOpen()){
-			cpApplyInfoService.open(cpApplyInfo);
+	public Result open(@RequestBody CpDocTag cpDocTag){
+		if (cpDocTagService.existOpen()){
+			cpDocTagService.open(cpDocTag);
 			return Result.OK("开放成功");
 		}
-		return Result.FAILD("时间区间冲突，已在开放时间区间");
+		return Result.FAILD("当前已有开放的申请");
 	}
+
 
 	@GetMapping("/hasopen")
 	public Result hasOpen(){
-		return Result.OK(cpApplyInfoService.existOpen());
+		return Result.OK(cpDocTagService.existOpen());
 	}
 
 }

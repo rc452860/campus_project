@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @Entity
-public class CpApplyInfo {
+public class CpDocTag {
     @Id
     @GeneratedValue
     private Long cpId;
@@ -20,9 +20,9 @@ public class CpApplyInfo {
     private Date cpStart;    //开放时间
     private Date cpEnd;    //结束时间
 
-    public CpApplyInfo(){}
+    public CpDocTag(){}
 
-    public CpApplyInfo(String cpName, Date cpStart, Date cpEnd) {
+    public CpDocTag(String cpName, Date cpStart, Date cpEnd) {
         this.cpName = cpName;
         this.cpStart = cpStart;
         this.cpEnd = cpEnd;

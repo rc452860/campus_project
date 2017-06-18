@@ -1,0 +1,61 @@
+package com.sakura.dev.service;
+
+import com.sakura.dev.domain.CpDocTag;
+import com.sakura.dev.excption.CampusExcption;
+import com.sakura.dev.repository.CpDocTagRepository;
+import com.sakura.dev.repository.specification.GenericSpecBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Field;
+import java.util.*;
+
+/**
+ * Created by rc452 on 2017/6/14.
+ */
+@Service
+public class CpDocTagService {
+    @Autowired
+    CpDocTagRepository cpDocTagRepository;
+
+    CpDocTag get(CpDocTag cpDocTag){
+        return this.get(cpDocTag.getCpName());
+    }
+
+    CpDocTag get(String name){
+        return cpDocTagRepository.findByCpName(name);
+    }
+
+    public CpDocTag open(CpDocTag cpDocTag) {
+        return cpDocTagRepository.save(cpDocTag);
+    }
+
+    public boolean existOpen() {
+        Date date = new Date();
+        GenericSpecBuilder<CpDocTag> builder = new GenericSpecBuilder<CpDocTag>();
+        builder.with("cpEnd", ">=", date);
+        List<CpDocTag> list = cpDocTagRepository.findAll(builder.build());
+        return list.size() == 0;
+    }
+
+    public Page<CpDocTag> getdocTags(Pageable pageable) {
+        try {
+            Field sort = pageable.getClass().getDeclaredField("sort");
+            sort.setAccessible(true);
+            sort.set(pageable,new Sort(Sort.Direction.DESC,"cpEnd"));
+            return cpDocTagRepository.findAll(pageable);
+        }catch (Exception e){
+            throw new CampusExcption("排序设置失败");
+        }
+    }
+
+    public void del(Long[] ids) {
+        for (long i : ids){
+            cpDocTagRepository.delete(i);
+        }
+    }
+}

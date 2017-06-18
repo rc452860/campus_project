@@ -1,9 +1,8 @@
 package com.sakura.dev.service;
 
 import com.sakura.dev.domain.CpPoorBuild;
-import com.sakura.dev.domain.CpStipendApplication;
 import com.sakura.dev.domain.CpStudent;
-import com.sakura.dev.repository.CpPoorBuildRepository;
+import com.sakura.dev.repository.CpDocRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CpPoorBuildService {
     @Autowired
-    CpPoorBuildRepository cpPoorBuildRepository;
+    CpDocRepository cpDocRepository;
     @Autowired
     CpStudentService cpStudentService;
     /**
@@ -22,7 +21,7 @@ public class CpPoorBuildService {
      * @return
      */
     public Boolean insertStudent(CpPoorBuild cpPoorBuild){
-        CpPoorBuild cpPoorBuild1 = cpPoorBuildRepository.save(cpPoorBuild);
+        CpPoorBuild cpPoorBuild1 = cpDocRepository.save(cpPoorBuild);
         if (cpPoorBuild1!=null){
             return true;
         }
@@ -35,7 +34,7 @@ public class CpPoorBuildService {
      * @return
      */
     public CpPoorBuild getStudent(String IdCard){
-        CpPoorBuild cpPoorBuild = cpPoorBuildRepository.findOne(IdCard);
+        CpPoorBuild cpPoorBuild = cpDocRepository.findOne(IdCard);
         if (cpPoorBuild!=null){
             return cpPoorBuild;
         }

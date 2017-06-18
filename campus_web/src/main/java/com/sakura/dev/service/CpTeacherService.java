@@ -1,9 +1,7 @@
 package com.sakura.dev.service;
 
 import com.sakura.dev.controller.dto.LoginRequest;
-import com.sakura.dev.domain.CpApplyInfo;
 import com.sakura.dev.domain.CpTeacher;
-import com.sakura.dev.repository.CpApplyInfoRepository;
 import com.sakura.dev.repository.CpTeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

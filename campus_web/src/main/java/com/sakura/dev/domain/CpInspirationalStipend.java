@@ -54,5 +54,5 @@ public class CpInspirationalStipend {
 
     @OneToOne
     @org.hibernate.annotations.ForeignKey(name = "none")
-    private CpApplyInfo cpApplyInfo;
+    private CpDocTag cpDocTag;
 }
