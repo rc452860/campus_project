@@ -6,11 +6,12 @@ import com.sakura.dev.repository.CpDocTagRepository;
 import com.sakura.dev.repository.specification.GenericSpecBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -52,10 +53,19 @@ public class CpDocTagService {
             throw new CampusExcption("排序设置失败");
         }
     }
-
+    @Modifying
+    @Transactional
     public void del(Long[] ids) {
         for (long i : ids){
-            cpDocTagRepository.delete(i);
+            cpDocTagRepository.deleteByCpId(i);
         }
     }
+
+	public CpDocTag getCurrentOpen() {
+        Date date = new Date();
+        GenericSpecBuilder<CpDocTag> builder = new GenericSpecBuilder<CpDocTag>();
+        builder.with("cpEnd", ">=", date);
+        List<CpDocTag> list = cpDocTagRepository.findAll(builder.build());
+        return list.size()>0?list.get(0):null;
+	}
 }

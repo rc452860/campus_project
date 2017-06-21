@@ -40,12 +40,8 @@ server:
 
 ---
 spring:
-    redis:
-      host: 119.28.75.143
-      database: 0
-      port: 6379
     session:
-      store-type: redis
+      store-type: hash_map
     jpa:
       hibernate:
         ddl-auto: update

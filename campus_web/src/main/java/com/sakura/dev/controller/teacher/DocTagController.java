@@ -24,8 +24,12 @@ public class DocTagController {
         return Result.OK(cpDocTagService.getdocTags(pageable));
     }
     @DeleteMapping
-    public Result del(Long[] ids){
-        cpDocTagService.del(ids);
-        return Result.OK("删除成功");
+    public Result del(@RequestBody Long[] ids){
+        if (ids.length>0){
+            cpDocTagService.del(ids);
+            return Result.OK("删除成功");
+        }else{
+            return Result.FAILD("未选择任何选项");
+        }
     }
 }

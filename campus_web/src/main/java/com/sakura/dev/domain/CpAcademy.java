@@ -33,7 +33,7 @@ public class CpAcademy {
     @org.hibernate.annotations.ForeignKey(name = "none")
     private CpAcademy cpParent;
     private String cpLevel;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "none"))
     @org.hibernate.annotations.ForeignKey(name = "none")
     private Set<CpTeacher> cpTeacher;

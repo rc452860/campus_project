@@ -4,6 +4,7 @@ import com.sakura.dev.controller.dto.AuditReuqest;
 import com.sakura.dev.controller.dto.Result;
 import com.sakura.dev.domain.CpPoorBuild;
 import com.sakura.dev.domain.CpStudent;
+import com.sakura.dev.service.CpDocTagService;
 import com.sakura.dev.service.CpPoorBuildService;
 import com.sakura.dev.service.CpStudentService;
 import org.apache.log4j.Logger;
@@ -23,6 +24,9 @@ public class PoorBuildController {
     CpPoorBuildService cpPoorBuildService;
     @Autowired
     CpStudentService cpStudentService;
+    @Autowired
+    CpDocTagService cpDocTagService;
+
 
     @Autowired
     HttpSession session;
@@ -30,12 +34,16 @@ public class PoorBuildController {
     private Logger logger = Logger.getLogger(this.getClass().getName());
     @GetMapping
     public Result apply(){
-        CpStudent cpStudent = (CpStudent) session.getAttribute("student");
-        CpPoorBuild cpPoorBuild =  cpPoorBuildService.getBaseInfo(cpStudent);
-        if(cpPoorBuild!=null){
-            return Result.OK(cpPoorBuild);
-        }else {
-            return Result.ERR("找不到学生基本信息");
+        if(cpDocTagService.existOpen()){
+            CpStudent cpStudent = (CpStudent) session.getAttribute("student");
+            CpPoorBuild cpPoorBuild =  cpPoorBuildService.getBaseInfo(cpStudent);
+            if(cpPoorBuild!=null){
+                return Result.OK(cpPoorBuild);
+            }else {
+                return Result.ERR("找不到学生基本信息");
+            }
+        }else{
+            return Result.ERR("暂未开放");
         }
     }
 
@@ -45,6 +53,14 @@ public class PoorBuildController {
             return Result.OK("申请成功");
         }
         return Result.ERR("申请失败");
+    }
+    @GetMapping("/open")
+    public Result checkOpen(){
+        if(cpDocTagService.existOpen()){
+            return Result.OK("");
+        }else{
+            return Result.ERR("暂未开放");
+        }
     }
 
     /**

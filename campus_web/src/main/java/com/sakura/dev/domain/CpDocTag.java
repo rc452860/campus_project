@@ -2,10 +2,9 @@ package com.sakura.dev.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by rc452 on 2017/6/6.
@@ -19,6 +18,10 @@ public class CpDocTag {
     private String cpName;   //名称
     private Date cpStart;    //开放时间
     private Date cpEnd;    //结束时间
+    @OneToMany
+    @JoinColumn(foreignKey = @ForeignKey(name = "none"))
+    @org.hibernate.annotations.ForeignKey(name = "none")
+    public List<CpPoorBuild> cpPoorBuild;
 
     public CpDocTag(){}
 
@@ -27,4 +30,5 @@ public class CpDocTag {
         this.cpStart = cpStart;
         this.cpEnd = cpEnd;
     }
+
 }

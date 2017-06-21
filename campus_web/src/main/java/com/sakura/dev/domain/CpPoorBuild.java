@@ -3,9 +3,7 @@ package com.sakura.dev.domain;
 import lombok.Data;
 import org.hibernate.annotations.Columns;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -67,5 +65,9 @@ public class CpPoorBuild {
     private String cpCounselorRemarks;  //辅导员审核备注
     private Integer cpSuperResult = 0;  //学工部审核结果：0表示不通过，1表示通过
     private String cpSuperRemarks;  //学工部审核备注
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "none"))
+    @org.hibernate.annotations.ForeignKey(name = "none")
+    public CpDocTag cpDocTag;
 
 }

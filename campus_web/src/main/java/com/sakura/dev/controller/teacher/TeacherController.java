@@ -33,7 +33,7 @@ public class TeacherController {
 			session.setAttribute("student",cpTeacher);
 			return Result.OK(cpTeacher);
 		}
-		return Result.FAILD("登陆失败");
+		return Result.FAILD("登陆失败,请检查账号或密码是否输入正确");
 	}
 
 	@PostMapping("/open")

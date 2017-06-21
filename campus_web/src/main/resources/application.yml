@@ -53,10 +53,6 @@ server:
 
 ---
 spring:
-    redis:
-      host: 119.28.75.143
-      database: 0
-      port: 6379
     session:
       store-type: hash_map
     datasource:
@@ -72,4 +68,5 @@ server:
 logging:
   level:
     root: debug
+
 #    org.springframework.security: DEBUG
