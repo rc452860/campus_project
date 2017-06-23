@@ -96,3 +96,15 @@ const obj = JSON.parse(text, reviver);
 console.log(typeof obj.date);
 // "object"
 ```
+
+### 2017年6月22日14:56:20
+[如何添加静态资源](http://www.baeldung.com/spring-mvc-static-resources)
+嵌入的tomcat调节上传资源大小
+修改配置文件
+```yml
+spring:
+	http:
+		multipart:
+            max-file-size: 10MB
+            max-request-size: 10MB
+```
