@@ -13,6 +13,10 @@ import java.util.Date;
 @Entity
 @Data
 public class CpPoorBuild {
+    @Id
+    @GeneratedValue
+    private Long cpId;
+
     private String cpSno;    //学号
     private String cpAcademy;  //学院
     private String cpName;  //姓名
@@ -26,12 +30,10 @@ public class CpPoorBuild {
     private Date cpBirthday;  //出身年月
     private String cpNationality;  //名族
     private String cpImg;  //头像
-
     private String cpPolitical;  //政治面貌
     private String cpRoom;  //寝室
     private String cpTel;  //联系方式
     private String cpInsurance;  //是否购买保险
-    @Id
     private String cpBankCard;  //银行卡号
     private String cpAddress;  //家庭住址
     private String cpPostcode;  //邮政编码
@@ -61,9 +63,9 @@ public class CpPoorBuild {
     private String cpLowSecurity;   //低保证材料
     private String cpCondition;    //病情证明材料
     private String cpAwards;   //获奖证明材料
-    private Integer cpCounselorResult = 0;   //辅导员审核结果：0表示不通过，1表示通过
+    private Integer cpCounselorResult = 0;   //辅导员审核结果：0表示未审核，1表示通过，2表示不通过
     private String cpCounselorRemarks;  //辅导员审核备注
-    private Integer cpSuperResult = 0;  //学工部审核结果：0表示不通过，1表示通过
+    private Integer cpSuperResult = 0;  //学工部审核结果：0表示未审核，1表示通过，2表示不通过
     private String cpSuperRemarks;  //学工部审核备注
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "none"))

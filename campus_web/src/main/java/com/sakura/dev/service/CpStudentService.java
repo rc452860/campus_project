@@ -34,14 +34,14 @@ public class CpStudentService{
         CpStudent cpStudent = cpStudentRepository.findByCpIdCardNoOrCpSno(arg.getCpIdCardNo(),arg.getCpSno());
         return cpStudent == null?cpStudentRepository.save(arg):cpStudent;
     }
-    @Cacheable(key = "#arg")
+    @Cacheable(key = "#arg",condition="#arg!=null")
     public CpStudent get(CpStudent arg){
-        if (arg == null&&arg.getCpIdCardNo() == null&&arg.getCpSno() == null){
+        if (arg == null||arg.getCpIdCardNo() == null||arg.getCpSno() == null){
             return null;
         }
         return cpStudentRepository.findByCpIdCardNoOrCpSno(arg.getCpIdCardNo(),arg.getCpSno());
     }
-    @Cacheable(key = "#arg")
+    @Cacheable(key = "#arg",condition="#arg!=null")
     public CpStudent get(String arg){
         return cpStudentRepository.findByCpIdCardNoOrCpSno(arg,arg);
     }

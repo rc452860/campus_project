@@ -32,6 +32,7 @@ public class PoorBuildController {
     HttpSession session;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
+
     @GetMapping
     public Result apply(){
         if(cpDocTagService.existOpen()){
@@ -49,10 +50,28 @@ public class PoorBuildController {
 
     @PostMapping("/application")
     public Result stipendApplication(@RequestBody CpPoorBuild cpPoorBuild){
+        if(cpPoorBuildService.hasCurrentApply(cpPoorBuild.getCpIdCardNo())){
+            return Result.ERR("档案已存在");
+        }
         if (cpPoorBuildService.insertStudent(cpPoorBuild)){
             return Result.OK("申请成功");
         }
         return Result.ERR("申请失败");
+    }
+
+    @PostMapping("/hasApply")
+    public Result hasApply(){
+        CpStudent cpStudent = (CpStudent) session.getAttribute("student");
+        if(cpPoorBuildService.hasCurrentApply(cpStudent.getCpIdCardNo())){
+            return Result.OK(true);
+        }else{
+            return Result.OK(false);
+        }
+    }
+    @GetMapping("/status")
+    public Result getState(){
+        CpStudent cpStudent = (CpStudent) session.getAttribute("student");
+        return Result.OK(cpPoorBuildService.getStatus(cpStudent));
     }
     @GetMapping("/open")
     public Result checkOpen(){

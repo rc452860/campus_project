@@ -38,7 +38,7 @@ public class TeacherController {
 
 	@PostMapping("/open")
 	public Result open(@RequestBody CpDocTag cpDocTag){
-		if (cpDocTagService.existOpen()){
+		if (!cpDocTagService.existOpen()){
 			cpDocTagService.open(cpDocTag);
 			return Result.OK("开放成功");
 		}

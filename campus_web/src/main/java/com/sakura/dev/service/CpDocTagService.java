@@ -40,7 +40,7 @@ public class CpDocTagService {
         GenericSpecBuilder<CpDocTag> builder = new GenericSpecBuilder<CpDocTag>();
         builder.with("cpEnd", ">=", date);
         List<CpDocTag> list = cpDocTagRepository.findAll(builder.build());
-        return list.size() == 0;
+        return list.size() > 0;
     }
 
     public Page<CpDocTag> getdocTags(Pageable pageable) {

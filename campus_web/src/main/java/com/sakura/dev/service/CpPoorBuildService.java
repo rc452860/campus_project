@@ -4,9 +4,12 @@ import com.sakura.dev.domain.CpDocTag;
 import com.sakura.dev.domain.CpPoorBuild;
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.repository.CpDocRepository;
+import com.sakura.dev.repository.specification.GenericSpecBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.sakura.dev.service.CpDocTagService;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by yth on 2017/6/5.
@@ -26,6 +29,10 @@ public class CpPoorBuildService {
      * @return
      */
     public Boolean insertStudent(CpPoorBuild cpPoorBuild){
+        if(this.hasCurrentApply(cpPoorBuild.getCpIdCardNo())){
+            //当前存在已有申请
+            return false;
+        }
         CpDocTag cpDocTag =cpDocTagService.getCurrentOpen();
         if(cpDocTag!=null){
             cpPoorBuild.setCpDocTag(cpDocTag);
@@ -36,6 +43,23 @@ public class CpPoorBuildService {
         }
         return false;
     }
+
+    public Boolean hasCurrentApply(String cpIdCardNo){
+        CpDocTag cpDocTag =cpDocTagService.getCurrentOpen();
+        GenericSpecBuilder<CpPoorBuild> build = new GenericSpecBuilder<CpPoorBuild>();
+        build.with("cpDocTag",":",cpDocTag);
+        build.with("cpIdCardNo",":",cpIdCardNo);
+        return cpDocRepository.count(build.build())>0;
+    }
+
+    public CpPoorBuild getCurrentApply(String cpIdCardNo){
+        CpDocTag cpDocTag =cpDocTagService.getCurrentOpen();
+        GenericSpecBuilder<CpPoorBuild> build = new GenericSpecBuilder<CpPoorBuild>();
+        build.with("cpDocTag",":",cpDocTag);
+        build.with("cpIdCardNo",":",cpIdCardNo);
+        return cpDocRepository.findAll(build.build()).get(0);
+    }
+
 
     /**
      * 通过学生身份证号查询
@@ -75,4 +99,51 @@ public class CpPoorBuildService {
         return null;
 
     }
-}
+
+    /**
+     * 获得状态
+     * 0：未开放
+     * 1：当前有开放的申请
+     * 2：已经申请
+     * 3：老师已经审批
+     * 4：教务处审批完成
+     * 5:老师审核不通过
+     * 6：教务处审核不通过
+     * @param cpStudent
+     * @return
+     */
+    public HashMap<String, Object> getStatus(CpStudent cpStudent) {
+        HashMap<String,Object> result = new LinkedHashMap<String, Object>();
+	    int status = 0;
+        if(cpDocTagService.existOpen()){
+	        status +=1;
+            result.put("open", 1);
+        }
+        CpPoorBuild cpPoorBuild = getCurrentApply(cpStudent.getCpIdCardNo());
+        if (cpPoorBuild!=null){
+            status +=10;
+            result.put("hasPost", 1);
+        }
+        //如果使用int方式返回请加上else reutnr status截断后续判断
+        if (cpPoorBuild.getCpCounselorResult() == 1){
+            status +=100;
+            result.put("cpCounselorResult", 1);
+        }
+        if (cpPoorBuild.getCpSuperResult() == 1){
+            status +=1000;
+            result.put("cpSuperResult", 1);
+        }
+        if(cpPoorBuild.getCpCounselorResult() == 2){
+            status+=200;
+            result.put("cpCounselorResult", 2);
+            result.put("cpCounselorRemarks", cpPoorBuild.getCpCounselorRemarks());
+        }
+        if (cpPoorBuild.getCpSuperResult() == 2){
+            status+=2000;
+            result.put("cpSuperResult", 2);
+            result.put("cpSuperRemarks", cpPoorBuild.getCpSuperRemarks());
+        }
+        //return status;
+        return result;
+    }
+}//capacaty
