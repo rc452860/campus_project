@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by yth on 2017/6/5.
@@ -57,7 +58,9 @@ public class CpPoorBuildService {
         GenericSpecBuilder<CpPoorBuild> build = new GenericSpecBuilder<CpPoorBuild>();
         build.with("cpDocTag",":",cpDocTag);
         build.with("cpIdCardNo",":",cpIdCardNo);
-        return cpDocRepository.findAll(build.build()).get(0);
+        List<CpPoorBuild> cpPoorBuildList = cpDocRepository.findAll(build.build());
+        return cpPoorBuildList == null ||
+                cpPoorBuildList.size() == 0?null:cpPoorBuildList.get(0);
     }
 
 
@@ -123,8 +126,10 @@ public class CpPoorBuildService {
         if (cpPoorBuild!=null){
             status +=10;
             result.put("hasPost", 1);
+        }else{
+            //return status;
+            return result;
         }
-        //如果使用int方式返回请加上else reutnr status截断后续判断
         if (cpPoorBuild.getCpCounselorResult() == 1){
             status +=100;
             result.put("cpCounselorResult", 1);

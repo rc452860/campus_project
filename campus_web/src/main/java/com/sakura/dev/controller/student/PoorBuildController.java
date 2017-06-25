@@ -100,5 +100,15 @@ public class PoorBuildController {
         }
         return Result.ERR("审核失败！");
     }
+    @GetMapping("/review")
+    public Result review(){
+        CpStudent cpStudent = (CpStudent) session.getAttribute("student");
+        CpPoorBuild cpPoorBuild = cpPoorBuildService.getCurrentApply(cpStudent.getCpIdCardNo());
+        if(cpPoorBuild!=null){
+            return Result.OK(cpPoorBuild);
+        }else{
+            return Result.ERR("没有档案提交");
+        }
+    }
 
 }
