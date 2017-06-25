@@ -30,7 +30,7 @@ public class TeacherController {
 	public Result login(@RequestBody LoginRequest loginRequest){
 		CpTeacher cpTeacher = cpTeacherService.login(loginRequest);
 		if (cpTeacher!=null){
-			session.setAttribute("student",cpTeacher);
+			session.setAttribute("teacher",cpTeacher);
 			return Result.OK(cpTeacher);
 		}
 		return Result.FAILD("登陆失败,请检查账号或密码是否输入正确");
@@ -50,5 +50,6 @@ public class TeacherController {
 	public Result hasOpen(){
 		return Result.OK(cpDocTagService.existOpen());
 	}
+
 
 }

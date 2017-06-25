@@ -2,12 +2,17 @@ package com.sakura.dev.controller.teacher;
 
 import com.sakura.dev.controller.dto.Result;
 import com.sakura.dev.domain.CpDocTag;
+import com.sakura.dev.domain.CpPoorBuild;
+import com.sakura.dev.domain.CpTeacher;
 import com.sakura.dev.service.CpDocTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * Created by rc452 on 2017/6/18.
@@ -18,6 +23,9 @@ public class DocTagController {
 
     @Autowired
     CpDocTagService cpDocTagService;
+
+    @Autowired
+    HttpSession session;
 
     @GetMapping
     public Result list(Pageable pageable){
@@ -31,5 +39,17 @@ public class DocTagController {
         }else{
             return Result.FAILD("未选择任何选项");
         }
+    }
+    @GetMapping("/doc/list")
+    public Result listDoc(Pageable pageable,@RequestParam Long cpDocTagId){
+        CpTeacher cpTeacher = (CpTeacher) session.getAttribute("teacher");
+        CpDocTag cpDocTag = cpDocTagService.getDocTagById(cpDocTagId);
+        Page<CpPoorBuild> poorBuildList = cpDocTagService.getList(pageable,cpDocTag,cpTeacher);
+        return Result.OK(poorBuildList);
+    }
+
+    @PostMapping("/audit")
+    public Result audit(){
+        return Result.ERR("暂未开放");
     }
 }

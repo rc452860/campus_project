@@ -8,7 +8,7 @@ import java.util.Enumeration;
  * Created by rc452 on 2017/4/27.
  */
 public enum SearchOperation {
-    EQUALITY, NEGATION, GREATER_THAN,GREATER_THAN_OR_EQUAL_TO, LESS_THAN,LESS_THAN__OR_EQUAL_TO, LIKE, STARTS_WITH, ENDS_WITH, CONTAINS;
+    EQUALITY, NEGATION, GREATER_THAN,GREATER_THAN_OR_EQUAL_TO, LESS_THAN,LESS_THAN__OR_EQUAL_TO, LIKE, STARTS_WITH, ENDS_WITH, CONTAINS,IN;
 
     public static final String[] SIMPLE_OPERATION_SET = { ":", "!", ">",">=", "<","<=", "~" };
 

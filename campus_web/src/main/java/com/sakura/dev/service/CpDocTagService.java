@@ -1,9 +1,13 @@
 package com.sakura.dev.service;
 
+import com.sakura.dev.domain.CpAcademy;
 import com.sakura.dev.domain.CpDocTag;
+import com.sakura.dev.domain.CpPoorBuild;
+import com.sakura.dev.domain.CpTeacher;
 import com.sakura.dev.excption.CampusExcption;
 import com.sakura.dev.repository.CpDocTagRepository;
 import com.sakura.dev.repository.specification.GenericSpecBuilder;
+import com.sakura.dev.repository.specification.SearchOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +26,10 @@ import java.util.*;
 public class CpDocTagService {
     @Autowired
     CpDocTagRepository cpDocTagRepository;
+    @Autowired
+    CpPoorBuildService cpPoorBuildService;
+    @Autowired
+    CpTeacherService cpTeacherService;
 
     CpDocTag get(CpDocTag cpDocTag){
         return this.get(cpDocTag.getCpName());
@@ -68,4 +76,15 @@ public class CpDocTagService {
         List<CpDocTag> list = cpDocTagRepository.findAll(builder.build());
         return list.size()>0?list.get(0):null;
 	}
+
+
+    public Page<CpPoorBuild> getList(Pageable pageable,CpDocTag cpDocTag,CpTeacher cpTeacher) {
+        return cpPoorBuildService.getList(pageable, cpDocTag, cpTeacher);
+    }
+
+    public CpDocTag getDocTagById(Long cpDocTagId) {
+        /*GenericSpecBuilder<CpDocTag> builder = new GenericSpecBuilder<CpDocTag>();
+        builder.with("cpId", SearchOperation.EQUALITY,cpDocTagId);*/
+        return cpDocTagRepository.getOne(cpDocTagId);
+    }
 }

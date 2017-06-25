@@ -25,7 +25,7 @@ public class CpTeacherService {
         }
     }
 
-    private CpTeacher get(String username) {
+    public CpTeacher get(String username) {
         return cpTeacherRepository.findByCpTno(username);
     }
 

@@ -22,6 +22,12 @@ public class CpTeacher {
     private String cpTitle;   //职称
     private String cpTno;    //工号
     private String cpPassword;    //密码
+    private String cpRole;
+
+    public final static String XGB = "学工部";
+    public final static String FDY = "辅导员";
+
+
     @ManyToMany
     @JoinColumn(foreignKey = @ForeignKey(name = "none"))
     @org.hibernate.annotations.ForeignKey(name = "none")

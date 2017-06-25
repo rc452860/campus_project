@@ -14,6 +14,29 @@ public class GenericSpecBuilder<T> {
     public GenericSpecBuilder with(String key,String operation,Object value){
         return this.with(key, operation, value, false, false);
     }
+    public GenericSpecBuilder with(String key,SearchOperation operation,Object value){
+        return this.with(key, operation, value, false, false);
+    }
+
+    public GenericSpecBuilder with(
+            String key, SearchOperation op, Object value, boolean startWithAsterisk, boolean endWithAsterisk) {
+
+        if (op != null) {
+            if (op == SearchOperation.EQUALITY) {
+
+                if (startWithAsterisk && endWithAsterisk) {
+                    op = SearchOperation.CONTAINS;
+                } else if (startWithAsterisk) {
+                    op = SearchOperation.ENDS_WITH;
+                } else if (endWithAsterisk) {
+                    op = SearchOperation.STARTS_WITH;
+                }
+            }
+            params.add(new SearchCriteria(key, op, value));
+        }
+        return this;
+    }
+
     public GenericSpecBuilder with(
             String key, String operation, Object value, boolean startWithAsterisk, boolean endWithAsterisk) {
 
@@ -38,6 +61,27 @@ public class GenericSpecBuilder<T> {
             String key, String operation, Object value, String prefix, String suffix) {
 
         SearchOperation op = SearchOperation.getSimpleOperation(operation);
+        if (op != null) {
+            if (op == SearchOperation.EQUALITY) {
+                boolean startWithAsterisk = prefix.contains("*");
+                boolean endWithAsterisk = suffix.contains("*");
+
+                if (startWithAsterisk && endWithAsterisk) {
+                    op = SearchOperation.CONTAINS;
+                } else if (startWithAsterisk) {
+                    op = SearchOperation.ENDS_WITH;
+                } else if (endWithAsterisk) {
+                    op = SearchOperation.STARTS_WITH;
+                }
+            }
+            params.add(new SearchCriteria(key, op, value));
+        }
+        return this;
+    }
+
+    public GenericSpecBuilder with(
+            String key, SearchOperation op, Object value, String prefix, String suffix) {
+
         if (op != null) {
             if (op == SearchOperation.EQUALITY) {
                 boolean startWithAsterisk = prefix.contains("*");

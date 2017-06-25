@@ -50,10 +50,10 @@ public class PoorBuildController {
 
     @PostMapping("/application")
     public Result stipendApplication(@RequestBody CpPoorBuild cpPoorBuild){
-        if(cpPoorBuildService.hasCurrentApply(cpPoorBuild.getCpIdCardNo())){
+        if(cpPoorBuild.getCpId()==null&&cpPoorBuildService.hasCurrentApply(cpPoorBuild.getCpIdCardNo())){
             return Result.ERR("档案已存在");
         }
-        if (cpPoorBuildService.insertStudent(cpPoorBuild)){
+        if (cpPoorBuildService.save(cpPoorBuild)){
             return Result.OK("申请成功");
         }
         return Result.ERR("申请失败");
@@ -93,7 +93,7 @@ public class PoorBuildController {
         if (auditReuqest.getIdentity().equals("counselor")){
             if (cpPoorBuild!=null){
                 cpPoorBuild.setCpCounselorResult(1);
-                if (cpPoorBuildService.insertStudent(cpPoorBuild)){
+                if (cpPoorBuildService.save(cpPoorBuild)){
                     return Result.OK("审核成功！");
                 }
             }

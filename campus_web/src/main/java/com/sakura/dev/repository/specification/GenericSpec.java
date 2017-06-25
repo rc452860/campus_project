@@ -60,6 +60,8 @@ public class GenericSpec<T> implements Specification<T>{
             case CONTAINS:
                 return builder.like(root.<String>get(
                         criteria.getKey()), "%" + criteria.getValue() + "%");
+            case IN:
+                return builder.and(root.<String>get(criteria.getKey()).in(criteria.getValue()));
             default:
                 return null;
         }
