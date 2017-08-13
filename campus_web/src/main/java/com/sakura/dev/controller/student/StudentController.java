@@ -1,14 +1,13 @@
 package com.sakura.dev.controller.student;
 
-import com.sakura.dev.controller.dto.Result;
 import com.sakura.dev.controller.dto.LoginRequest;
+import com.sakura.dev.controller.dto.Result;
 import com.sakura.dev.controller.dto.UserAccount;
 import com.sakura.dev.domain.CpStudent;
 import com.sakura.dev.service.CpStudentService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +36,7 @@ public class StudentController {
         CpStudent cpStudent = cpStudentService.login(loginRequest);
         if (cpStudent!=null){
             session.setAttribute("student",cpStudent);
-            return Result.OK(cpStudent);
+            return Result.OK(session.getId());
         }
         return Result.FAILD("登陆失败");
     }
@@ -92,9 +91,7 @@ public class StudentController {
      * @return
      */
     @GetMapping("/list")
-    public Page<CpStudent> CpStudentList(@RequestParam(required = false,defaultValue = "1") int page,
-                                         @RequestParam(required = false,defaultValue = "10") int size){
-        Pageable pageable = new PageRequest(page,size);
+    public Page<CpStudent> CpStudentList(Pageable pageable) {
         return cpStudentService.findAll(pageable);
     }
 

@@ -31,16 +31,19 @@ public class TeacherController {
 		CpTeacher cpTeacher = cpTeacherService.login(loginRequest);
 		if (cpTeacher!=null){
 			session.setAttribute("teacher",cpTeacher);
-			return Result.OK(cpTeacher);
+			return Result.OK(session.getId());
 		}
 		return Result.FAILD("登陆失败,请检查账号或密码是否输入正确");
 	}
 
 	@PostMapping("/open")
 	public Result open(@RequestBody CpDocTag cpDocTag){
-		if (!cpDocTagService.existOpen()){
+		if (cpDocTag.getCpId() == null && !cpDocTagService.existOpen()) {
 			cpDocTagService.open(cpDocTag);
 			return Result.OK("开放成功");
+		} else if (cpDocTag.getCpId() != null && cpDocTagService.existCpDcoTag(cpDocTag)) {
+			cpDocTagService.open(cpDocTag);
+			return Result.OK("修改成功");
 		}
 		return Result.FAILD("当前已有开放的申请");
 	}
@@ -51,5 +54,9 @@ public class TeacherController {
 		return Result.OK(cpDocTagService.existOpen());
 	}
 
+	@GetMapping("/info")
+	public Result info() {
+		return Result.OK(cpTeacherService.getTeacherBySession());
+	}
 
 }

@@ -108,3 +108,7 @@ spring:
             max-file-size: 10MB
             max-request-size: 10MB
 ```
+
+
+
+https://spring.io/blog/2015/01/20/the-resource-server-angular-js-and-spring-security-part-iii

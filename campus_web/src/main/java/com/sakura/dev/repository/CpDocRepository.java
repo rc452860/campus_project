@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 /**
  * Created by rc452 on 2017/6/2.
  */
-public interface CpDocRepository extends JpaRepository<CpPoorBuild,String>,JpaSpecificationExecutor<CpPoorBuild> {
+public interface CpDocRepository extends JpaRepository<CpPoorBuild, Long>, JpaSpecificationExecutor<CpPoorBuild> {
 }

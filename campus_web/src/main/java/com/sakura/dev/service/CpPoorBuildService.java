@@ -1,8 +1,8 @@
 package com.sakura.dev.service;
 
+import com.sakura.dev.controller.dto.AuditReuqest;
 import com.sakura.dev.domain.*;
 import com.sakura.dev.repository.CpDocRepository;
-import com.sakura.dev.repository.specification.GenericSpec;
 import com.sakura.dev.repository.specification.GenericSpecBuilder;
 import com.sakura.dev.repository.specification.SearchOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,8 @@ public class CpPoorBuildService {
     @Autowired
     CpDocTagService cpDocTagService;
 
+    @Autowired
+    CpTeacherService cpTeacherService;
     /**
      * 建档表插入学生
      * @param cpPoorBuild
@@ -76,7 +78,9 @@ public class CpPoorBuildService {
      * @return
      */
     public CpPoorBuild getStudent(String IdCard){
-        CpPoorBuild cpPoorBuild = cpDocRepository.findOne(IdCard);
+        GenericSpecBuilder<CpPoorBuild> build = new GenericSpecBuilder<CpPoorBuild>();
+        build.with("cpIdCardNo", ":", IdCard);
+        CpPoorBuild cpPoorBuild = cpDocRepository.findOne(build.build());
         if (cpPoorBuild!=null){
             return cpPoorBuild;
         }
@@ -182,5 +186,43 @@ public class CpPoorBuildService {
             build.with("cpAcademy", SearchOperation.IN,cpAcademies);
         }
         return cpDocRepository.findAll(build.build(),pageable);
+    }
+
+    public Page<CpPoorBuild> getFilesOfTeacher(Pageable pageable) {
+        CpTeacher cpTeacher = cpTeacherService.getTeacherBySession();
+        //辅导员只能看到自己学院的
+        GenericSpecBuilder<CpPoorBuild> cpPoorBuildGenericSpecBuilder = new GenericSpecBuilder<>();
+        if (cpTeacher.getCpRole().equals(CpTeacher.FDY)) {
+            Set<CpAcademy> cpAcademies = cpTeacher.getCpAcademies()
+                    .stream()
+                    .filter(
+                            cpAcademy -> cpAcademy.getCpRank() == CpAcademy.RANK_ACADEMY
+                    ).collect(Collectors.toSet());
+            cpPoorBuildGenericSpecBuilder.with("cpAcademy", "in", cpAcademies);
+            return cpDocRepository.findAll(cpPoorBuildGenericSpecBuilder.build(), pageable);
+        }
+        return cpDocRepository.findAll(pageable);
+    }
+
+    /**
+     * 建档审核
+     *
+     * @param auditReuqest
+     * @return
+     */
+    public int audit(AuditReuqest auditReuqest) {
+        CpPoorBuild cpPoorBuild = cpDocRepository.getOne(auditReuqest.getCpId());
+        CpTeacher cpTeacher = cpTeacherService.getTeacherBySession();
+        int flag = auditReuqest.getResult() ? 1 : 2;
+        if (cpTeacher.getCpRole().equals(CpTeacher.FDY)) {
+            cpPoorBuild.setCpCounselorResult(flag);
+            cpPoorBuild.setCpCounselorRemarks(auditReuqest.getRemark());
+        }
+        if (cpTeacher.getCpRole().equals(CpTeacher.XGB)) {
+            cpPoorBuild.setCpSuperResult(flag);
+            cpPoorBuild.setCpSuperRemarks(auditReuqest.getRemark());
+        }
+        cpDocRepository.save(cpPoorBuild);
+        return flag;
     }
 }//capacaty

@@ -72,5 +72,12 @@ server:
 logging:
   level:
     root: info
+    jdbc:
+      sqlonly: ERROR
+      sqltiming: ERROR
+      audit: ERROR
+      resultset: ERROR
+      connection: ERROR
+      resultsettable: ERROR
 
 #    org.springframework.security: DEBUG

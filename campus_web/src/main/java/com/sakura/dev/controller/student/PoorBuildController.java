@@ -1,6 +1,5 @@
 package com.sakura.dev.controller.student;
 
-import com.sakura.dev.controller.dto.AuditReuqest;
 import com.sakura.dev.controller.dto.Result;
 import com.sakura.dev.domain.CpPoorBuild;
 import com.sakura.dev.domain.CpStudent;
@@ -82,24 +81,7 @@ public class PoorBuildController {
         }
     }
 
-    /**
-     * 教师审核
-     * @param auditReuqest
-     * @return
-     */
-    @PostMapping("/audit")
-    public Result Audit(@RequestBody AuditReuqest auditReuqest){
-        CpPoorBuild cpPoorBuild = cpPoorBuildService.getStudent(auditReuqest.getCpCard());
-        if (auditReuqest.getIdentity().equals("counselor")){
-            if (cpPoorBuild!=null){
-                cpPoorBuild.setCpCounselorResult(1);
-                if (cpPoorBuildService.save(cpPoorBuild)){
-                    return Result.OK("审核成功！");
-                }
-            }
-        }
-        return Result.ERR("审核失败！");
-    }
+
     @GetMapping("/review")
     public Result review(){
         CpStudent cpStudent = (CpStudent) session.getAttribute("student");

@@ -1,12 +1,8 @@
 package com.sakura.dev.domain;
 
 import lombok.Data;
-import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import java.util.List;
 import java.util.Set;
 
 
@@ -20,6 +16,9 @@ import java.util.Set;
 @Data
 @Entity
 public class CpAcademy {
+    public final static int RANK_ACADEMY = 1;//学院
+    public final static int RANK_MAJOR = 2;//专业
+    public final static int RANK_CLASS = 3;//班级
     @Id
     @GeneratedValue
     private Long cpId;
@@ -34,13 +33,11 @@ public class CpAcademy {
     private CpAcademy cpParent;
     private String cpLevel;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(foreignKey = @ForeignKey(name = "none"))
-    @org.hibernate.annotations.ForeignKey(name = "none")
+    @JoinTable(name = "cp_academy_cp_teacher", joinColumns = @JoinColumn(name = "cp_teacher_cp_id"),
+            inverseJoinColumns = @JoinColumn(name = "cp_academy_cp_id"), foreignKey = @ForeignKey(name = "none"), inverseForeignKey = @ForeignKey(name = "none"))
+//    @JoinColumn(foreignKey = @ForeignKey(name = "none"))
+//    @org.hibernate.annotations.ForeignKey(name = "none")
     private Set<CpTeacher> cpTeacher;
-
-    public final static int RANK_ACADEMY = 1;//学院
-    public final static int RANK_MAJOR = 2;//专业
-    public final static int RANK_CLASS = 3;//班级
 
     public CpAcademy(){}
 

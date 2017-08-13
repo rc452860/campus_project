@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import java.util.*;
 
 /**
  * Created by rc452 on 2017/5/22.
@@ -98,7 +97,8 @@ public class CpStudentService{
             return loginRequest.getPassword().equals(loginRequest.getPassword())?cpStudent:null;
         }
     }
-    @Cacheable
+
+    //    @Cacheable(key = "#args",condition="#arg!=null")
     public Page<CpStudent> findAll(Pageable pageable){
         return cpStudentRepository.findAll(pageable);
     }

@@ -7,12 +7,10 @@ import com.sakura.dev.domain.CpTeacher;
 import com.sakura.dev.service.CpDocTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
 
 /**
  * Created by rc452 on 2017/6/18.
@@ -35,11 +33,12 @@ public class DocTagController {
     public Result del(@RequestBody Long[] ids){
         if (ids.length>0){
             cpDocTagService.del(ids);
-            return Result.OK("删除成功");
+            return Result.OK("删除成功", null);
         }else{
             return Result.FAILD("未选择任何选项");
         }
     }
+
     @GetMapping("/doc/list")
     public Result listDoc(Pageable pageable,@RequestParam Long cpDocTagId){
         CpTeacher cpTeacher = (CpTeacher) session.getAttribute("teacher");
@@ -48,8 +47,5 @@ public class DocTagController {
         return Result.OK(poorBuildList);
     }
 
-    @PostMapping("/audit")
-    public Result audit(){
-        return Result.ERR("暂未开放");
-    }
+
 }
